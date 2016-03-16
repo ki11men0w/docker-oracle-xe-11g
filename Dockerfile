@@ -14,6 +14,10 @@ RUN /assets/setup.sh
 ADD dbinit/password_life_time_unlimited.sh /dbinit/dbinit.d/00password_life_time_unlimited
 ADD dbinit/password_life_time_unlimited /dbinit/password_life_time_unlimited
 
+# Set systemwide NLS_LENGTH_SEMANTICS=CHAR
+ADD dbinit/nls_length_semantics_char.sh /dbinit/dbinit.d/05nls_length_semantics_char
+ADD dbinit/nls_length_semantics_char /dbinit/nls_length_semantics_char
+
 EXPOSE 22
 EXPOSE 1521
 EXPOSE 8080
