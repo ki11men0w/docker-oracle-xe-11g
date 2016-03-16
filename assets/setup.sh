@@ -29,7 +29,12 @@ cp /u01/app/oracle/product/11.2.0/xe/network/admin/listener.ora /u01/app/oracle/
 mv /assets/init.ora /u01/app/oracle/product/11.2.0/xe/config/scripts &&
 mv /assets/initXETemp.ora /u01/app/oracle/product/11.2.0/xe/config/scripts &&
 
-printf 8080\\n1521\\noracle\\noracle\\ny\\n | /etc/init.d/oracle-xe configure &&
+if [ -z ${do_not_configure_on_build+x} ]
+then
+    printf 8080\\n1521\\noracle\\noracle\\ny\\n | /etc/init.d/oracle-xe configure
+else
+    touch /.need_oracle_configure
+fi &&
 
 touch /.need_oracle_initialize &&
 
