@@ -1,6 +1,6 @@
 FROM ubuntu:14.04.1
 
-MAINTAINER Wei-Ming Wu <wnameless@gmail.com>
+MAINTAINER Maksim Golubev <maksim.golubev72@gmail.com>
 
 # If you set this variable (to any value), the configuration of Oracle will be performed not at the build stage,
 # but during the first run of the container. This will significantly reduce the size of the image,
