@@ -5,4 +5,14 @@ cp "${LISTENERS_ORA}.tmpl" "$LISTENERS_ORA" &&
 sed -i "s/%hostname%/$HOSTNAME/g" "${LISTENERS_ORA}" && 
 sed -i "s/%port%/1521/g" "${LISTENERS_ORA}" && 
 
-service oracle-xe start
+service oracle-xe start &&
+
+# First time run db initialization scripts
+if [ -f /.need_oracle_initialize ]; then
+    if [ -d /dbinit/dbinit.d ]; then
+        echo Oracle data initialization... &&
+        run-parts --exit-on-error /dbinit/dbinit.d &&
+        echo Oracle data initialization. Done.
+    fi &&
+    rm /.need_oracle_initialize
+fi
