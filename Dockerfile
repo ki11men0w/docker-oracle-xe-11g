@@ -8,7 +8,7 @@ MAINTAINER Maksim Golubev <maksim.golubev72@gmail.com>
 ARG do_not_configure_on_build
 
 ADD assets /assets
-RUN /assets/setup.sh
+RUN chmod +x /assets/setup.sh && sync && /assets/setup.sh
 
 # Set password life time inlimited
 ADD dbinit/password_life_time_unlimited.sh /dbinit/dbinit.d/00password_life_time_unlimited
