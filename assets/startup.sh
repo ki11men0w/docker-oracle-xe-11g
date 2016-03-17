@@ -9,7 +9,8 @@ sed -i "s/%port%/1521/g" "${LISTENERS_ORA}" &&
 if [ -f /.need_oracle_configure ]
 then
     printf 8080\\n1521\\noracle\\noracle\\ny\\n | /etc/init.d/oracle-xe configure &&
-    rm /.need_oracle_configure
+    rm /.need_oracle_configure &&
+    service oracle-xe restart
 else
     service oracle-xe start
 fi &&
