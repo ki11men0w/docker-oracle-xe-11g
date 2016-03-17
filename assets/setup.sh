@@ -29,19 +29,31 @@ cp /u01/app/oracle/product/11.2.0/xe/network/admin/listener.ora /u01/app/oracle/
 mv /assets/init.ora /u01/app/oracle/product/11.2.0/xe/config/scripts &&
 mv /assets/initXETemp.ora /u01/app/oracle/product/11.2.0/xe/config/scripts &&
 
+echo 'export ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe' >> /etc/profile.d/oracle.sh &&
+echo 'export PATH=$ORACLE_HOME/bin:$PATH' >> /etc/profile.d/oracle.sh &&
+echo 'export ORACLE_SID=XE' >> /etc/profile.d/oracle.sh &&
+echo '. /etc/profile.d/oracle.sh' >> /etc/bash.bashrc &&
+
 if [ -z ${do_not_configure_on_build+x} ]
 then
-    printf 8080\\n1521\\noracle\\noracle\\ny\\n | /etc/init.d/oracle-xe configure
+    printf 8080\\n1521\\noracle\\noracle\\ny\\n | /etc/init.d/oracle-xe configure &&
+    # Run first time run db initialization scripts on build stage to speed up the first container run
+    if [ -d /dbinit/dbinit.d ]; then
+        # Make all files in the directory executable. It will facilitate the addition of scripts when working on MS Windows.
+        chmod +x /dbinit/dbinit.d/* &&
+        echo Oracle data initialization... &&
+        # Use _login_ shell to initialize Oracle environment variables
+        /bin/bash -lc "run-parts --exit-on-error /dbinit/dbinit.d" &&
+        # Delete every script that has been launched
+        rm -rf /dbinit/dbinit.d/* &&
+        echo Oracle data initialization. Done.
+    fi &&
 else
     touch /.need_oracle_configure
 fi &&
 
 touch /.need_oracle_initialize &&
 
-echo 'export ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe' >> /etc/profile.d/oracle.sh &&
-echo 'export PATH=$ORACLE_HOME/bin:$PATH' >> /etc/profile.d/oracle.sh &&
-echo 'export ORACLE_SID=XE' >> /etc/profile.d/oracle.sh &&
-echo '. /etc/profile.d/oracle.sh' >> /etc/bash.bashrc &&
 
 # Install startup script for container
 mv /assets/startup.sh /usr/sbin/startup.sh &&
