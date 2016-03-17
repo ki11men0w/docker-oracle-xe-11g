@@ -34,8 +34,10 @@ echo 'export PATH=$ORACLE_HOME/bin:$PATH' >> /etc/profile.d/oracle.sh &&
 echo 'export ORACLE_SID=XE' >> /etc/profile.d/oracle.sh &&
 echo '. /etc/profile.d/oracle.sh' >> /etc/bash.bashrc &&
 
-if [ -z ${do_not_configure_on_build+x} ]
+if [ "${configure_on_build:-yes}" = "no" ] || [ "${configure_on_build:-true}" = "false" ]
 then
+    touch /.need_oracle_configure
+else
     printf 8080\\n1521\\noracle\\noracle\\ny\\n | /etc/init.d/oracle-xe configure &&
     # Run first time run db initialization scripts on build stage to speed up the first container run
     if [ -d /dbinit/dbinit.d ]; then
@@ -50,8 +52,6 @@ then
         rm -rf /dbinit/dbinit.d/* &&
         echo Oracle data initialization. Done.
     fi
-else
-    touch /.need_oracle_configure
 fi &&
 
 touch /.need_oracle_initialize &&

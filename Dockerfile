@@ -2,10 +2,10 @@ FROM ubuntu:14.04.1
 
 MAINTAINER Maksim Golubev <maksim.golubev72@gmail.com>
 
-# If you set this variable (to any value), the configuration of Oracle will be performed not at the build stage,
-# but during the first run of the container. This will significantly reduce the size of the image,
-# but will increase the time of the first run of the container.
-ARG do_not_configure_on_build
+# If this variable is set to any value dfferent from "no", the configuration
+# of Oracle will be performed at the build stage. This will will reduce the time
+# of the first run of the container, but significantly increase the size of the image.
+ARG configure_on_build=no
 
 ADD assets /assets
 
