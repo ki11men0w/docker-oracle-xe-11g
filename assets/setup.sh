@@ -47,7 +47,7 @@ then
         # Delete every script that has been launched
         rm -rf /dbinit/dbinit.d/* &&
         echo Oracle data initialization. Done.
-    fi &&
+    fi
 else
     touch /.need_oracle_configure
 fi &&
