@@ -21,7 +21,7 @@ if [ -f /.need_oracle_initialize ]; then
         chmod +x /dbinit/dbinit.d/* &&
         echo Oracle data initialization... &&
         # Use _login_ shell to initialize Oracle environment variables
-        /bin/bash -lc run-parts --exit-on-error /dbinit/dbinit.d &&
+        /bin/bash -lc "run-parts --exit-on-error /dbinit/dbinit.d" &&
         echo Oracle data initialization. Done.
     fi &&
     rm /.need_oracle_initialize
