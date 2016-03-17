@@ -5,6 +5,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 cat /assets/oracle-xe_11.2.0-1.0_amd64.deba* > /assets/oracle-xe_11.2.0-1.0_amd64.deb
 
+touch /.in_build_stage && sync &&
+
 # Install OpenSSH
 apt-get install -y openssh-server &&
 mkdir /var/run/sshd &&
@@ -56,13 +58,13 @@ fi &&
 
 touch /.need_oracle_initialize &&
 
-
 # Install startup script for container
 mv /assets/startup.sh /usr/sbin/startup.sh &&
 chmod +x /usr/sbin/startup.sh &&
 
 # Remove installation files
-rm -r /assets/
+rm -r /assets/ &&
+rm /.in_build_stage
 
 
 exit $?
