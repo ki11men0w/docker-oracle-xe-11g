@@ -19,7 +19,9 @@ fi &&
 if [ -f /.need_oracle_initialize ]; then
     if [ -d /dbinit/dbinit.d ]; then
         # Make all files in the directory executable. It will facilitate the addition of scripts when working on MS Windows.
-        chmod +x /dbinit/dbinit.d/* &&
+        if [ "$(ls /dbinit/dbinit.d)" ]; then
+            chmod +x /dbinit/dbinit.d/*
+        fi &&
         echo Oracle data initialization... &&
         # Use _login_ shell to initialize Oracle environment variables
         /bin/bash -lc "run-parts --exit-on-error /dbinit/dbinit.d" &&
