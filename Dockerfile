@@ -8,7 +8,6 @@ MAINTAINER Maksim Golubev <maksim.golubev72@gmail.com>
 ARG do_not_configure_on_build
 
 ADD assets /assets
-RUN chmod +x /assets/setup.sh && sync && /assets/setup.sh
 
 # Set password life time inlimited
 ADD dbinit/password_life_time_unlimited.sh /dbinit/dbinit.d/00password_life_time_unlimited
@@ -17,6 +16,8 @@ ADD dbinit/password_life_time_unlimited /dbinit/password_life_time_unlimited
 # Set systemwide NLS_LENGTH_SEMANTICS=CHAR
 ADD dbinit/nls_length_semantics_char.sh /dbinit/dbinit.d/05nls_length_semantics_char
 ADD dbinit/nls_length_semantics_char /dbinit/nls_length_semantics_char
+
+RUN chmod +x /assets/setup.sh && sync && /assets/setup.sh
 
 EXPOSE 22
 EXPOSE 1521
