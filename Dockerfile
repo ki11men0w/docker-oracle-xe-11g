@@ -3,7 +3,7 @@ FROM ubuntu:14.04.1
 MAINTAINER Maksim Golubev <maksim.golubev72@gmail.com>
 
 # If this variable is set to any value dfferent from "no", the configuration
-# of Oracle will be performed at the build stage. This will will reduce the time
+# of Oracle will be performed at the build stage. This will reduce the time
 # of the first run of the container, but significantly increase the size of the image.
 ARG configure_on_build=no
 
